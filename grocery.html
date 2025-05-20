@@ -283,15 +283,15 @@
 
   <div id="paymentModal">
     <div>
-      <h3>Enter Payment Details</h3>
+      <h3 style="color: black;">Enter Payment Details</h3>
       <form id="paymentForm">
-        <label for="cardNumber">Card Number:</label>
+        <label for="cardNumber" style="color: black;">Card Number:</label>
         <input type="text" id="cardNumber"  maxlength="13" required placeholder="1234567890123456" />
         
-        <label for="expiry">Expiry Date (MM/YY):</label>
+        <label for="expiry" style="color: black;">Expiry Date (MM/YY):</label>
         <input type="text" id="expiry" pattern="(0[1-9]|1[0-2])\/\d{2}" required placeholder="MM/YY" />
         
-        <label for="cvv">CVV:</label>
+        <label for="cvv" style="color: black;">CVV:</label>
         <input type="text" id="cvv" pattern="\d{3}" maxlength="3" required placeholder="123" />
         
         <button type="submit">Pay</button>
@@ -369,6 +369,7 @@
       div.addEventListener('click', () => {
         addToCart(item);
       });
+      div.style.color='black';
       itemsContainer.appendChild(div);
     });
   }
@@ -395,7 +396,9 @@
       const li = document.createElement('li');
       li.textContent = `${ci.name} x${ci.qty} - R${(ci.price * ci.qty).toFixed(2)}`;
       cartItemsEl.appendChild(li);
+      li.style.color='black';
     });
+    
     proceedBtn.style.display = 'inline-block';
   }
 
