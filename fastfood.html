@@ -381,7 +381,7 @@
     
     const text = document.createElement('div');
     text.textContent = `${item.name} - R${item.price.toFixed(2)}`;
-    
+    text.style.color = 'black';
     itemDiv.appendChild(img);
     itemDiv.appendChild(text);
 
@@ -415,6 +415,7 @@
     cartItems.forEach(ci => {
       const li = document.createElement('li');
       li.textContent = `${ci.name} x${ci.qty} - R${(ci.price * ci.qty).toFixed(2)}`;
+      li.style.color='black';
       cartItemsEl.appendChild(li);
     });
     proceedBtn.style.display = 'inline-block';
