@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Order - Moving Stars Logistics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .navbar {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .navbar h1 { font-size: 28px; }
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .navbar a:hover { color: #4ca1af; }
+        .main-content {
+            padding: 40px 20px;
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+        }
+        .main-heading {
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .options-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .option-card {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 20px;
+            width: 250px;
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .option-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        .option-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .option-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .footer {
+            margin-top: auto;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            text-align: center;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .footer-text { color: #ddd; font-size: 14px; }
+        .social-icons { display: flex; gap: 15px; }
+        .social-icons a {
+            color: #ddd;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        .social-icons a:hover {
+            color: #4ca1af;
+            transform: translateY(-3px);
+        }
+        @media (max-width: 768px) {
+            .options-container { flex-direction: column; align-items: center; }
+            .footer-content { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h3 style="color: white;">Moving Stars</h3>
+        <div>
+            <a href="home.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h2 class="main-heading">What type of store are you ordering from?</h2>
+        <div class="options-container">
+            <div class="option-card" onclick="window.location.href='grocery.html'">
+                <i class="fas fa-shopping-cart option-icon"></i>
+                <div class="option-title">Grocery Store</div>
+            </div>
+            <div class="option-card" onclick="window.location.href='medication.html'">
+                <i class="fas fa-pills option-icon"></i>
+                <div class="option-title">Medication Store</div>
+            </div>
+            <div class="option-card" onclick="window.location.href='fastfood.html'">
+                <i class="fas fa-hamburger option-icon"></i>
+                <div class="option-title">Fast Food Store</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-text">&copy; 2025 Moving Stars Logistics. All rights reserved.</div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

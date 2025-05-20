@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Drone Rental</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .drone-selection {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .drone-card {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            width: 280px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .drone-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .drone-card.selected {
+            border: 3px solid #4ca1af;
+        }
+
+        .drone-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .rental-options {
+            margin-top: 40px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 25px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        select, button, input {
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: none;
+            font-size: 16px;
+            margin: 10px;
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        label {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 90%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .footer {
+            margin-top: auto;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .navbar {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar a:hover {
+            color: #4ca1af;
+        }
+        
+        .footer-text {
+            color: #ddd;
+            font-size: 14px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icons a {
+            color: #ddd;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        
+        button {
+            background: #4ca1af;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #3a7e91;
+        }
+
+        .price-display {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        #paymentPopup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            z-index: 1000;
+            width: 90%;
+            max-width: 500px;
+        }
+        
+        #paymentPopup h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        #errorMsg {
+            color: #ff6b6b;
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h3 style="color: white;">Moving Stars</h3>
+        
+        <div style="display: flex;">
+            <a href="landing.html">Home</a>
+            <a href="home.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+    <h1>Select a Drone to Rent</h1>
+    <div class="drone-selection">
+        <div class="drone-card" data-type="Standard Drone">
+            <img src="small.png" alt="Standard Drone">
+            <h3>Standard Drone</h3>
+            <p>Small drone ideal for basic logistics tasks.</p>
+        </div>
+        <div class="drone-card" data-type="Professional Drone">
+            <img src="pro.png" alt="Professional Drone">
+            <h3>Professional Drone</h3>
+            <p>Medium drone suitable for business-grade operations.</p>
+        </div>
+        <div class="drone-card" data-type="Heavy Lift Drone">
+            <img src="medium.png" alt="Heavy Lift Drone">
+            <h3>Heavy Lift Drone</h3>
+            <p>Large drone for transporting heavy cargo.</p>
+        </div>
+    </div>
+
+    <div class="rental-options hidden" id="detailsForm">
+        <h2>Rental Details</h2>
+        <form id="rentalForm">
+            <label for="name">Business Name:</label>
+            <input type="text" id="name" required>
+            
+            <label for="address">Address:</label>
+            <input type="text" id="address" required>
+            
+            <label for="purpose">Purpose:</label>
+            <input type="text" id="purpose" required>
+            
+            <label for="contact">Contact Number:</label>
+            <input type="text" id="contact" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+            
+            <label for="period">Rental Period:</label>
+            <select id="period" onchange="updatePrice()">
+                <option value="1">1 Month - $500</option>
+                <option value="2">2 Months - $900</option>
+                <option value="3">3 Months - $1500</option>
+            </select>
+
+            <div class="price-display" id="price-display">
+                Total Price: $500
+            </div>
+
+            <button type="button" id="proceedPayment">Proceed to Payment</button>
+        </form>
+    </div>
+    
+    <div id="paymentPopup" class="hidden">
+        <h2>Enter Payment Details</h2>
+        <label for="cardName">Cardholder Name:</label>
+        <input type="text" id="cardName" required>
+        
+        <label for="cardNumber">Card Number:</label>
+        <input type="text" id="cardNumber" required maxlength="13">
+        
+        <label for="cvv">CVV:</label>
+        <input type="text" id="cvv" required maxlength="3">
+        
+        <button id="payNow">Pay Now</button>
+        <p id="errorMsg"></p>
+    </div>
+
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-text">&copy; 2025 Moving Stars Logistics. All rights reserved.</div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedDrone = '';
+
+        document.querySelectorAll(".drone-card").forEach(drone => {
+            drone.addEventListener("click", () => {
+                document.querySelectorAll(".drone-card").forEach(d => d.classList.remove("selected"));
+                drone.classList.add("selected");
+                selectedDrone = drone.getAttribute("data-type");
+                document.getElementById("detailsForm").classList.remove("hidden");
+            });
+        });
+         let price = 0;
+        function updatePrice() {
+            const period = document.getElementById('period').value;
+           
+
+            if (period === '1') price = 500;
+            else if (period === '2') price = 900;
+            else if (period === '3') price = 1500;
+
+            document.getElementById('price-display').innerText = `Total Price: $${price}`;
+        }
+        
+        document.getElementById("proceedPayment").addEventListener("click", () => {
+            const fields = ["name", "address", "purpose", "contact", "email"];
+            for (let id of fields) {
+                if (!document.getElementById(id).value.trim()) {
+                    alert("Please complete all fields.");
+                    return;
+                }
+            }
+            document.getElementById("paymentPopup").classList.remove("hidden");
+        });
+        
+        document.getElementById("payNow").addEventListener("click", () => {
+            const cardName = document.getElementById("cardName").value.trim();
+            const cardNumber = document.getElementById("cardNumber").value.trim();
+            const cvv = document.getElementById("cvv").value.trim();
+            
+            if (!cardName || cardNumber.length !== 13 || cvv.length !== 3) {
+                document.getElementById("errorMsg").innerText = "Invalid card details. Please check.";
+                return;
+            }
+            
+            const period = document.getElementById('period').value;
+            const prices = { '1': 500, '2': 900, '3': 1500 };
+            const amount = prices[period];
+            
+            alert(`Payment successful!\nYou selected a ${selectedDrone} for ${period} month(s).\nTotal payment: $${amount}.\nA confirmation email will be sent.`);
+            document.getElementById("rentalForm").reset();
+            document.getElementById("cardName").value = "";
+            document.getElementById("cardNumber").value = "";
+            document.getElementById("cvv").value = "";
+            document.getElementById("paymentPopup").classList.add("hidden");
+            document.getElementById("detailsForm").classList.add("hidden");
+            document.querySelectorAll(".drone-card").forEach(d => d.classList.remove("selected"));
+            price=500
+        });
+
+    </script>
+</body>
+</html>

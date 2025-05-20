@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Grocery Rental Booking</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .drone-selection {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .drone-card {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            width: 280px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .drone-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .drone-card.selected {
+            border: 3px solid #4ca1af;
+        }
+
+        .drone-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .rental-options {
+            margin-top: 40px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 25px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        select, button, input {
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: none;
+            font-size: 16px;
+            margin: 10px;
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        label {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 90%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .footer {
+            margin-top: auto;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .navbar {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar a:hover {
+            color: #4ca1af;
+        }
+        
+        .footer-text {
+            color: #ddd;
+            font-size: 14px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icons a {
+            color: #ddd;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        
+        button {
+            background: #4ca1af;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #3a7e91;
+        }
+
+        .price-display {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        #paymentPopup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            z-index: 1000;
+            width: 90%;
+            max-width: 500px;
+        }
+        
+        #paymentPopup h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        #errorMsg {
+            color: #ff6b6b;
+            text-align: center;
+            margin-top: 15px;
+        }
+    
+    select {
+      padding: 8px;
+    }
+    #itemsContainer > div {
+      background: white;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+      width: 80%;
+    }
+    #itemsContainer > div:hover {
+      background: #c8e6c9;
+    }
+    #cart {
+      background: #fff;
+      width: 80%;
+      margin-top: 20px;
+      margin-bottom: 30px;
+      padding: 15px;
+      border-radius: 6px;
+      display: none;
+      text-align: center;
+      justify-content: center;
+    }
+    #cart ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    #cart button {
+      background: #2e7d32;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    #paymentModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+    }
+    #paymentModal > div {
+      background: white;
+      padding: 20px;
+      border-radius: 6px;
+      width: 90%;
+      max-width: 400px;
+    }
+    #paymentModal label {
+      margin-top: 10px;
+    }
+    #confirmation {
+      display: none;
+      text-align: center;
+      margin-top: 40px;
+    }
+    #confirmation strong {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+<div class="navbar">
+        <h3 style="color: white;">Moving Stars</h3>
+        
+        <div style="display: flex;">
+            <a href="landing.html">Home</a>
+            <a href="home.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+  <h1>Grocery Orders</h1>
+
+  <label for="storeSelect">Select Grocery Store:</label>
+  <select id="storeSelect">
+    <option value="" disabled selected>Select a store</option>
+    <option value="Woolworths">Woolworths</option>
+    <option value="Checkers">Checkers</option>
+    <option value="Pick n Pay">Pick n Pay</option>
+  </select>
+
+  <div id="itemsContainer"></div>
+
+  <div id="cart">
+    <h3>Your Cart</h3>
+    <ul id="cartItems"></ul>
+    <button id="proceedBtn">Proceed to Payment</button>
+  </div>
+
+  <div id="paymentModal">
+    <div>
+      <h3>Enter Payment Details</h3>
+      <form id="paymentForm">
+        <label for="cardNumber">Card Number:</label>
+        <input type="text" id="cardNumber"  maxlength="13" required placeholder="1234567890123456" />
+        
+        <label for="expiry">Expiry Date (MM/YY):</label>
+        <input type="text" id="expiry" pattern="(0[1-9]|1[0-2])\/\d{2}" required placeholder="MM/YY" />
+        
+        <label for="cvv">CVV:</label>
+        <input type="text" id="cvv" pattern="\d{3}" maxlength="3" required placeholder="123" />
+        
+        <button type="submit">Pay</button>
+      </form>
+      <button id="closeModal" style="margin-top: 10px;">Cancel</button>
+    </div>
+  </div>
+
+  <div id="confirmation">
+    <h2>Order Confirmed!</h2>
+    <p>Thank you for your order from <strong id="confirmStoreName"></strong>.</p>
+    <p id="trackingStatus"></p>
+  </div>
+  <div class="footer">
+        <div class="footer-content">
+            <div class="footer-text">&copy; 2025 Moving Stars Logistics. All rights reserved.</div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+
+<script>
+  const storeItems = {
+    'Woolworths': [
+      { name: 'Fresh Apples (1kg)', price: 30 },
+      { name: 'Brown Bread', price: 20 },
+      { name: 'Milk (1 litre)', price: 15 }
+    ],
+    'Checkers': [
+      { name: 'Bananas (1kg)', price: 25 },
+      { name: 'Rice (2kg)', price: 45 },
+      { name: 'Cheddar Cheese (250g)', price: 35 }
+    ],
+    'Pick n Pay': [
+      { name: 'Tomatoes (1kg)', price: 28 },
+      { name: 'Eggs (12 pcs)', price: 22 },
+      { name: 'Orange Juice (1 litre)', price: 18 }
+    ]
+  };
+
+  const storeSelect = document.getElementById('storeSelect');
+  const itemsContainer = document.getElementById('itemsContainer');
+  const cart = document.getElementById('cart');
+  const cartItemsEl = document.getElementById('cartItems');
+  const proceedBtn = document.getElementById('proceedBtn');
+  const paymentModal = document.getElementById('paymentModal');
+  const closeModal = document.getElementById('closeModal');
+  const paymentForm = document.getElementById('paymentForm');
+  const confirmation = document.getElementById('confirmation');
+  const confirmStoreName = document.getElementById('confirmStoreName');
+  const trackingStatus = document.getElementById('trackingStatus');
+
+  let selectedStore = '';
+  let cartItems = [];
+
+  storeSelect.addEventListener('change', e => {
+    selectedStore = e.target.value;
+    cartItems = [];
+    updateCart();
+    showItemsForStore(selectedStore);
+    confirmation.style.display = 'none';
+    itemsContainer.style.display = 'block';
+  });
+
+  function showItemsForStore(store) {
+    itemsContainer.innerHTML = '';
+    if (!storeItems[store]) return;
+    storeItems[store].forEach(item => {
+      const div = document.createElement('div');
+      div.textContent = `${item.name} - R${item.price.toFixed(2)}`;
+      div.addEventListener('click', () => {
+        addToCart(item);
+      });
+      itemsContainer.appendChild(div);
+    });
+  }
+
+  function addToCart(item) {
+    const existing = cartItems.find(ci => ci.name === item.name);
+    if (existing) {
+      existing.qty++;
+    } else {
+      cartItems.push({ ...item, qty: 1 });
+    }
+    updateCart();
+  }
+
+  function updateCart() {
+    if (cartItems.length === 0) {
+      cart.style.display = 'none';
+      proceedBtn.style.display = 'none';
+      return;
+    }
+    cart.style.display = 'block';
+    cartItemsEl.innerHTML = '';
+    cartItems.forEach(ci => {
+      const li = document.createElement('li');
+      li.textContent = `${ci.name} x${ci.qty} - R${(ci.price * ci.qty).toFixed(2)}`;
+      cartItemsEl.appendChild(li);
+    });
+    proceedBtn.style.display = 'inline-block';
+  }
+
+  proceedBtn.addEventListener('click', () => {
+    paymentModal.style.display = 'flex';
+  });
+
+  closeModal.addEventListener('click', () => {
+    paymentModal.style.display = 'none';
+  });
+
+  paymentForm.addEventListener('submit', e => {
+    e.preventDefault();
+    alert('Payment successful! Thank you for your order.');
+    paymentModal.style.display = 'none';
+    showConfirmation();
+     window.location.href = "tracking.html";
+  });
+
+  function showConfirmation() {
+    itemsContainer.style.display = 'none';
+    cart.style.display = 'none';
+    confirmation.style.display = 'block';
+    confirmStoreName.textContent = selectedStore;
+    trackingStatus.textContent = "Tracking: Your order is being packed and will be delivered shortly.";
+  }
+
+  window.addEventListener('click', e => {
+    if (e.target === paymentModal) {
+      paymentModal.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>

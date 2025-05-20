@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Drone Rental</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .drone-selection {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .drone-card {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            width: 280px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .drone-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .drone-card.selected {
+            border: 3px solid #4ca1af;
+        }
+
+        .drone-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+         .tracking-section {
+            width: 100%;
+            margin-top: 60px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tracking-title {
+            font-size: 28px;
+            margin-bottom: 25px;
+            text-align: left;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        .tracking-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 25px;
+            background: linear-gradient(to bottom, #4ca1af, #2c3e50);
+            border-radius: 5px;
+        }
+        
+        .tracking-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .tracking-info {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .tracking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tracking-id span {
+            color: #bbb;
+            font-size: 14px;
+            margin-right: 8px;
+        }
+        
+        .tracking-id strong {
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+        
+        .delivery-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #555;
+        }
+        
+        .status-indicator.active {
+            background: #4ca1af;
+            box-shadow: 0 0 10px rgba(76, 161, 175, 0.7);
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(76, 161, 175, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(76, 161, 175, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(76, 161, 175, 0);
+            }
+        }
+        
+        .status-text {
+            font-weight: 500;
+            color: #4ca1af;
+        }
+        
+        .route-info {
+            position: relative;
+            padding: 20px 10px;
+        }
+        
+        .location-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .location-point:not(:last-child) {
+            margin-bottom: 70px;
+        }
+        
+        .location-point i {
+            font-size: 24px;
+            color: #4ca1af;
+        }
+        
+        .location-point i.origin {
+            color: #2ecc71;
+        }
+        
+        .location-point i.destination {
+            color: #e74c3c;
+        }
+        
+        .location-details {
+            text-align: left;
+        }
+        
+        .location-details h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .location-details p {
+            font-size: 14px;
+            color: #ddd;
+            margin-bottom: 5px;
+        }
+        
+        .location-time {
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        .route-line {
+            position: absolute;
+            top: 45px;
+            left: 22px;
+            width: 2px;
+            height: calc(100% - 90px);
+            background: linear-gradient(to bottom, 
+                #2ecc71 0%, 
+                #4ca1af 50%, 
+                #e74c3c 100%);
+            z-index: 1;
+        }
+        .footer {
+            margin-top: auto;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .navbar {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar a:hover {
+            color: #4ca1af;
+        }
+        
+        .footer-text {
+            color: #ddd;
+            font-size: 14px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icons a {
+            color: #ddd;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        
+        button {
+            background: #4ca1af;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #3a7e91;
+        }
+
+        .price-display {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        #paymentPopup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            z-index: 1000;
+            width: 90%;
+            max-width: 500px;
+        }
+        
+        #paymentPopup h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        #errorMsg {
+            color: #ff6b6b;
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h3 style="color: white;">Moving Stars</h3>
+        
+        <div style="display: flex;">
+            <a href="landing.html">Home</a>
+            <a href="home.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+    <div class="tracking-section">
+            <h2 class="tracking-title">Track Your Delivery</h2>
+            <div class="tracking-container">
+                <div class="tracking-info">
+                    <div class="tracking-header">
+                        <div class="tracking-id">
+                            <span>Tracking ID:</span>
+                            <strong>MS-95872-DRN</strong>
+                        </div>
+                        <div class="delivery-status">
+                            <span class="status-indicator active"></span>
+                            <span class="status-text">In Transit</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- Map Section -->
+        <div id="delivery-map" style="width: 100%; height: 350px; margin-top: 60px;"></div>
+
+    </div>
+
+    
+
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-text">&copy; 2025 Moving Stars Logistics. All rights reserved.</div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    initMap();
+  });
+
+  function initMap() {
+    const mapContainer = document.getElementById('delivery-map');
+    if (!mapContainer) return;
+
+    mapContainer.innerHTML = `
+      <svg width="100%" height="100%" viewBox="0 0 800 350">
+        <rect width="800" height="350" fill="#2d3436" />
+        <path d="M100,100 L700,100" stroke="#777" stroke-width="12" stroke-linecap="round" />
+        <path d="M100,250 L700,250" stroke="#777" stroke-width="12" stroke-linecap="round" />
+        <path d="M150,50 L150,300" stroke="#777" stroke-width="8" stroke-linecap="round" />
+        <path d="M400,50 L400,300" stroke="#777" stroke-width="8" stroke-linecap="round" />
+        <path d="M650,50 L650,300" stroke="#777" stroke-width="8" stroke-linecap="round" />
+        <circle cx="150" cy="100" r="15" fill="#2ecc71" />
+        <text x="150" y="100" font-family="Arial" font-size="12" fill="white" text-anchor="middle" dominant-baseline="middle">A</text>
+        <circle cx="650" cy="250" r="15" fill="#e74c3c" />
+        <text x="650" y="250" font-family="Arial" font-size="12" fill="white" text-anchor="middle" dominant-baseline="middle">B</text>
+        <path d="M150,100 Q400,50 650,250" stroke="#4ca1af" stroke-width="4" stroke-dasharray="10,5" fill="none" />
+        <circle id="drone-position" cx="150" cy="100" r="8" fill="#fff">
+          <animate attributeName="cx" from="150" to="650" dur="10s" repeatCount="indefinite" />
+          <animate attributeName="cy" from="100" to="250" dur="10s" repeatCount="indefinite" />
+        </circle>
+        <text x="140" y="70" font-family="Arial" font-size="14" fill="#fff">Campus Square</text>
+        <text x="540" y="290" font-family="Arial" font-size="14" fill="#fff">University of Johannesburg APB Campus</text>
+      </svg>
+    `;
+  }
+</script>
+
+</body>
+</html>
